@@ -6,8 +6,8 @@ const Main = () => {
     // const [isChecked, setChecked] = useState(false);
 
     return (
-        <div className="max-h-screen flex flex-col justify-center items-center  overflow-hidden m-1 border border-2 ">
-            <h1 className="text-center text-4xl font-bold bg-blue-500"> LETTURA PDF/ CREAZIONE WORD TEMPLATE
+        <div className="max-h-screen flex flex-col justify-center items-center overflow-hidden border border-2 ">
+            <h1 className="text-center text-4xl font-bold bg-blue-500 mt-4">
                 {/* ARE YOU A ROBOT??
 
                 <p>
@@ -16,7 +16,7 @@ const Main = () => {
                 </p> */}
             </h1>
             <PdfDropZone />
-        </div>
+        </div >
     )
 }
 

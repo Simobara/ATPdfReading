@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { Document, Page } from 'react-pdf';
 import * as pdfjs from 'pdfjs-dist';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry';
 import { Packer, Document as DocxJS, Paragraph } from 'docx';
-import "./App.css"
 import "./pdfViewer.css";
 import PdfControls from './PdfControls/pdfControls';
 import PdfDownload from './PdfDownload/pdfDownload';
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-
 
 const PdfViewer = ({ file }) => {
     const [numPages, setNumPages] = useState(null);
@@ -20,26 +17,51 @@ const PdfViewer = ({ file }) => {
 
     const MAX_ZOOM = 2.5; // valore massimo dello zoom
     const MIN_ZOOM = 0.5; // valore minimo dello zoom
-
     const scrollContainerRef = useRef(null);
+
     const scrollLabelRef = useRef(null);
     const onDocumentLoadSuccess = ({ numPages }) => {
         setNumPages(numPages);
     };
+
     const extractTextFromPdf = async (pdfFile) => {
         const arrayBuffer = await pdfFile.arrayBuffer();
         const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
         let combinedText = '';
+
         for (let i = 1; i <= pdf.numPages; i++) {
             const page = await pdf.getPage(i);
             const textContent = await page.getTextContent();
-            combinedText += textContent.items.map(item => item.str).join(' ') + '\n\n';
+
+            let lastItem = null;
+            for (const item of textContent.items) {
+                // Se lastItem esiste e l'attuale item è sulla stessa riga del lastItem, aggiungi uno spazio
+                if (lastItem && Math.abs(lastItem.transform[5] - item.transform[5]) > 5) {
+                    combinedText += '\n';
+                }
+                combinedText += item.str;
+                lastItem = item;
+            }
+            combinedText += '\n'; // Nuova linea alla fine di ogni pagina
         }
         return combinedText;
     };
 
+
     async function createDocument(text) {
+        // Array delle parole che vuoi contrassegnare
+        const wordsToHighlight = ["experience", "FRONTEND", "BACKEND"];
+
+        // Sostituisci ogni parola nell'array con la versione contrassegnata
+        wordsToHighlight.forEach(word => {
+            const regex = new RegExp(word, "gi");
+            text = text.replace(regex, `{{ ${word} }}`);
+        });
+
         const paragraphs = text.split('\n').map(line => new Paragraph(line));
+
+
+
         const doc = new DocxJS({
             title: 'My Document',
             creator: 'Me',
@@ -51,6 +73,8 @@ const PdfViewer = ({ file }) => {
         const blob = await Packer.toBlob(doc);
         setWordBlob(blob);
     }
+
+
 
     // useEffect(() => {
     //     const scrollContainer = scrollContainerRef.current;
@@ -110,13 +134,3 @@ const PdfViewer = ({ file }) => {
 }
 
 export default PdfViewer;
-
-
-
-
-
-
-
-
-
-

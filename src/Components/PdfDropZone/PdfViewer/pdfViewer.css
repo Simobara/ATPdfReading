@@ -1,0 +1,54 @@
+    .scroll-container {
+        position: relative;
+    }
+
+    /* .scroll-container .overflow-auto {
+        flex-grow: 1;
+    } */
+
+    .custom-scrollbar::-webkit-scrollbar {
+        background: transparent;
+        width: 20px;  /* Larghezza della scrollbar */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;  /* Colore di sfondo del track */
+        z-index:10;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgb(20, 9, 162);  /* Colore della scrollbar */
+        border-radius: 50px;
+        z-index:10;
+        /* border-radius: 10px;  Arrotonda gli angoli della scrollbar */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgb(20, 9, 162);  /* Cambia colore quando si passa con il mouse */
+        z-index:10;
+    }
+
+    /* Per Firefox */
+    .custom-scrollbar {
+        scrollbar-width: thick;  /* "thin" per una barra più sottile, "thick" per una più grande */
+        scrollbar-color: trasparent;  /* Primo colore per la scrollbar, secondo per il track */
+    }
+
+    .scroll-label {
+    position: absolute;
+    top: 125px; /* hight and low the text button */
+    right: 0;  /* posiziona il testo vicino alla scrollbar */
+    transform: rotate(-90deg) scale(-1);;  /* ruota il testo */
+    transform-origin: top right;
+    white-space: nowrap;  /* evita che il testo venga spezzato */
+    font-size: 14px;
+    background: whitesmoke;  /* colore di sfondo */
+    padding: 0;
+    letter-spacing: 4px; /* Aggiungi il valore desiderato per lo spazio tra le lettere */
+    color: black;
+    border-radius:100px;
+    border-left: 6px solid black;
+    border-right: 6px solid black;
+    border-top: 6px solid black;
+    z-index: -1;
+}
