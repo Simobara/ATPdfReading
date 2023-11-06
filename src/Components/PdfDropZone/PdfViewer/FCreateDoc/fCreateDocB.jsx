@@ -24,7 +24,7 @@ export const createDocument = async (text) => {
     const sections = insertSeparatorsAndJson(originalText); //*IMPORTANT-----
     const sect = fixAndOrderSections(sections);//*IMPORTANT------------------
 
-    console.log("ORIGINAL TEXT", originalText)
+    // console.log("ORIGINAL TEXT", originalText)
 
     const section1 = sect[0];
     const sect1 = String(section1.content[0])
@@ -40,8 +40,8 @@ export const createDocument = async (text) => {
     const sect6 = String(section6.content[0])
     const section7 = sect[6];
     const sect7 = String(section7.content[0])
-    const section8 = sect[7];
-    const sect8 = String(section8.content[0])
+    // const section8 = sect[7];
+    // const sect8 = String(section8.content[0])
     const section9 = sect[8];
     const sect9 = String(section9.content[0])
     const section10 = sect[9];
@@ -56,9 +56,9 @@ export const createDocument = async (text) => {
     const competenzeOrganizzativeEGestionali = await competenzeOrganizzativeEGestional(sect5);
     const capacitaECompetenzeRelazionali = await capacitaECompetenzeRelazional(sect6);
     const capacitaECompetenzeTecniche = await capacitaECompetenzeTecnich(sect7);
-    const altreCapacita = await altreCapacit(sect8);
-    const patenti = await patent(sect9);
-    const autorizzazioneDatiPersonali = await autorizzazioneDatiPersonal(sect10);
+    const altreCapacita = await altreCapacit(originalText);
+    const patenti = await patent(sect9, originalText);
+    const autorizzazioneDatiPersonali = await autorizzazioneDatiPersonal(sect10, originalText);
     //----------------------------------------------------------------------C Cesena OMPONENTS 
     const logoUp = await getLogoUp();
     const totParagraphs = [
@@ -71,6 +71,7 @@ export const createDocument = async (text) => {
         ...ulterioriInformazioni,
         new Paragraph(" "),
         ...competenzeOrganizzativeEGestionali,
+        new Paragraph(" "),
         ...capacitaECompetenzeRelazionali,
         new Paragraph(" "),
         ...capacitaECompetenzeTecniche,

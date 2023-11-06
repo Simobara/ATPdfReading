@@ -1,10 +1,14 @@
 import { Paragraph, TextRun } from 'docx';
 import nlp from 'compromise';
+import dates from 'compromise-dates';
+
+nlp.extend(dates);
+
+
 
 const removeAccents = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 };
-
 const extractDob = async (text) => {
     const sectionKeywords = ["informazioni personali", "dati personali", "personal information", "personal details"];
     let dob = null;
@@ -12,17 +16,13 @@ const extractDob = async (text) => {
     const findPersonalSection = sectionKeywords.some((keyword) =>
         normalizedText.includes(removeAccents(keyword.toLowerCase()))
     );
-
     if (findPersonalSection) {
-        // Prima ricerca con compromise per le date.
-        const doc = nlp(normalizedText);
+        const doc = nlp(normalizedText);// Prima ricerca con compromise per le date.
         const dates = doc.dates().format('iso').out('array');
         if (dates.length > 0) {
-            // Supponendo che la prima data trovata sia la DOB, dato che siamo nella sezione personale.
-            dob = dates[0];
+            dob = dates[0];// Supponendo che la prima data trovata sia la DOB, dato che siamo nella sezione personale
         } else {
-            // Se compromise non trova date, procediamo con il metodo hardcoded.
-            const keywords = ["data di nascita", "nato il", "nata il", "nascita", "compleanno", "età", "eta'", "age"];
+            const keywords = ["data di nascita", "nato il", "nata il", "nascita", "compleanno", "età", "eta'", "age"];//proced con metodo hardcoded
             const lines = normalizedText.split('\n');
             for (const keyword of keywords) {
                 const normalizedKeyword = removeAccents(keyword.toLowerCase());
@@ -43,15 +43,24 @@ const extractDob = async (text) => {
             }
         }
     }
-
     return dob;
 };
 
-export const getDob = async (origText) => {
-    const dob = await extractDob(origText);
-    console.log(`DATA DI NASCITA: ${dob ? dob : " nd "}`);
+
+
+// ------------------------------------------------------------OUTPUT
+export const getDob = async (text) => {
+    const dob = await extractDob(text);
+    console.log(`DOB: ${dob ? dob : " nd "}`);
+    if (!dob) {
+        return null;
+    }
     return new Paragraph({
         alignment: "left",
-        children: [new TextRun(`Data di Nascita: ${dob ? dob : " / "}`)],
+        children: [
+            new TextRun({
+                text: `Data di Nascita: ${dob}`,
+            })
+        ],
     });
 };

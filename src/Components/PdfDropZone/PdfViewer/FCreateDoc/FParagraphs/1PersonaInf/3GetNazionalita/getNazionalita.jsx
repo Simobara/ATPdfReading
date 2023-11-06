@@ -27,7 +27,7 @@ const extractNazionalitaWithNLP = (text) => {
 }
 
 
-const extractNazionalita = (origText) => {
+const extractNazionalita = (text) => {
     const isSimilarNation = (word) => {
         const firstFourLetters = word.substring(0, 4).toLowerCase();
         const allNationalities = [...nationalities, ...nazionalitaMaschile, ...nazionalitaFemminile];
@@ -35,7 +35,7 @@ const extractNazionalita = (origText) => {
     };
     const regex = new RegExp(`\\b(${keywords.join("|")})\\s+(\\w+)`, "ig");
     let foundNazionalities = [];
-    let match = regex.exec(origText);
+    let match = regex.exec(text);
     while (match !== null) {
         const possibleNation = match[2];
         if (nationalities.includes(possibleNation) ||
@@ -44,24 +44,23 @@ const extractNazionalita = (origText) => {
             isSimilarNation(possibleNation)) {
             foundNazionalities.push(possibleNation);
         }
-        match = regex.exec(origText);
+        match = regex.exec(text);
     }
     return foundNazionalities.length > 0 ? foundNazionalities.join("-") : null;
 }
 
 
 
-export const getNaz = async (origText) => {
-    let nazionalita = await extractNazionalita(origText);
+// ------------------------------------------------------------OUTPUT
+export const getNaz = async (text) => {
+    let nazionalita = await extractNazionalita(text);
     if (!nazionalita) {
-        nazionalita = extractNazionalitaWithNLP(origText);
+        nazionalita = extractNazionalitaWithNLP(text);
     }
     console.log(`NAZIONALITA: ${nazionalita ? nazionalita : "nd "}`);
     return new Paragraph({
         alignment: "left",
-        children: [
-            new TextRun(`Nazionalità: ${nazionalita ? nazionalita : " / "}`)
-        ]
+        children: [new TextRun(`Nazionalità: ${nazionalita}`)]
     });
 };
 

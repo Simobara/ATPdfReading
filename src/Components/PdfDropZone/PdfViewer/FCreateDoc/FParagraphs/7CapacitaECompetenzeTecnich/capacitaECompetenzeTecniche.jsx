@@ -40,13 +40,19 @@ const extractCapEComTec = (origText) => {
 
 export const getCapEComTec = async (origText) => {
     let capEComTec = await extractCapEComTec(origText);
-    // if (!phoneNumber) {
-    //     phoneNumber = extractComOrgTelefonoWithNLP(origText);
-    // }
+    const headingRun = new TextRun({
+        text: "COMPETENZE TECNICHE:\n",
+        bold: true,
+    });
+    const emptyLineRun = new TextRun({
+        text: "\n",
+        break: 2,
+    });
+    const competenzeTecnicheRun = new TextRun({
+        text: capEComTec ? capEComTec : " / ",
+    });
     return new Paragraph({
         alignment: "left",
-        children: [
-            new TextRun(`Competenze Tecniche: ${capEComTec ? capEComTec : " / "}`)
-        ]
+        children: [headingRun, emptyLineRun, competenzeTecnicheRun],
     });
 }

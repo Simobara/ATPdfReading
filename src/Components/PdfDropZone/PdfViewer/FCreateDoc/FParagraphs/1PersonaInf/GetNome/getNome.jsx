@@ -63,6 +63,7 @@ const extractNome = (text) => {
 
 
 
+// ------------------------------------------------------------OUTPUT
 export const getNome = async (text) => {
     const nomeCognome = extractNome(text);
     console.log(`NOME COGNOME: ${nomeCognome ? nomeCognome : " nd "}`);

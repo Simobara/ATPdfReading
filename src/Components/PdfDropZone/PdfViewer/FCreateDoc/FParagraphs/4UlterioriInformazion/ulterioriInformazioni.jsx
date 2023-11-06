@@ -40,13 +40,20 @@ const extractUltInf = (origText) => {
 
 export const getUltInf = async (origText) => {
     let ultInf = await extractUltInf(origText);
-    // if (!phoneNumber) {
-    //     phoneNumber = extractComOrgTelefonoWithNLP(origText);
-    // }
+    const headingRun = new TextRun({
+        text: "ULTERIORI INFORMAZIONI:\n",
+        bold: true,
+    });
+    const emptyLineRun = new TextRun({
+        text: "\n",
+        break: 2,
+    });
+    const ulterioriInformazioniRun = new TextRun({
+        text: ultInf ? ultInf : " / ",
+    });
     return new Paragraph({
         alignment: "left",
-        children: [
-            new TextRun(`Ulteriori Informazioni: ${ultInf ? ultInf : " / "}`)
-        ]
+        children: [headingRun, emptyLineRun, ulterioriInformazioniRun],
     });
 }
+

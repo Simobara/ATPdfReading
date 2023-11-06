@@ -22,6 +22,7 @@ const extractPatente = (origText) => {
 
 
 
+// ------------------------------------------------------------OUTPUT
 export const getPat = async (text) => {
     const patente = await extractPatente(text);
     if (!patente) {

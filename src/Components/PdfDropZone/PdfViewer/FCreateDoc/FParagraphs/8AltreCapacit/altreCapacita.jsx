@@ -1,52 +1,69 @@
 import { Paragraph, TextRun } from 'docx';
-// import nlp from 'compromise';
-
-// const extractTelefonoWithNLP = (origText) => {
-//     const doc = nlp(origText);
-//     const numbers = doc.numbers().out('array'); // estrae tutti i numeri
-//     for (let number of numbers) {
-//         let cleanedNumber = number.replace(/[\s-]/g, '');
-//         if (cleanedNumber.length >= 5 && cleanedNumber.length <= 15) {
-//             return cleanedNumber;
-//         }
-//     }
-//     return null;
-// }
+import { createTable } from './FCreazioneTabella/fCreazioneTabella';
 
 
-const extractAltCap = (origText) => {
-    // const keywords = [
-    //     "apparecchio", "canale", "cell", "cell phone", "cellulare", "chiamata", "cifra", "codice", "collegamento", "connessione", "contatto", "fisso", "landline", "linea", "mobile", "mobile phone", "numero", "numero di telefono", "Phone", "phone number", "rapporto", "richiamo", "smartphone", "tel", "telefono", "telefono fisso", "telefonata"
-    // ];
-    // const keywordRegex = new RegExp(`(${keywords.join("|")})[:\\s]*`, "i");
-    // const matchKeyword = origText.match(keywordRegex); // Estrai potenziale numero dopo la parola chiave
-    // if (matchKeyword) {
-    //     const startIdx = matchKeyword.index + matchKeyword[0].length;
-    //     const slicedText = origText.slice(startIdx);
-    //     // Cercare un `+` (con possibili spazi) seguito da altri possibili spazi e poi da una serie di numeri che, una volta "ripuliti", sono tra 5 e 15 cifre
-    //     const numberWithPrefix = slicedText.match(/(\+\s*)?(\d[\s-]*){5,15}/);
-    //     if (numberWithPrefix) {
-    //         const cleanedNumber = numberWithPrefix[0].replace(/[\s-]/g, '');
-    //         // Verifica se il numero "ripulito" ha una lunghezza tra 5 e 15 cifre
-    //         if (cleanedNumber.length >= 5 && cleanedNumber.length <= 15) {
-    //             return cleanedNumber; // Questo manterrà il `+` nel numero finale se presente
-    //         }
-    //     }
-    // }
-    return null;
-}
+export const recoverDatas = () => {         //*4 dentro - fuori
+    const dummyData = ['Italiano', 'C2', 'C2', 'C2', 'C2', 'C2', 'C2', 'C2'];
+    return dummyData;
+};
 
+const extractAltCap = () => {               //*2 dentro
+    const skillsInTable = createTable();    //*3 fuori - 5* dentro
+    return skillsInTable;
+};
 
-
-export const getAltCap = async (origText) => {
-    let altCap = await extractAltCap(origText);
-    // if (!phoneNumber) {
-    //     phoneNumber = extractComOrgTelefonoWithNLP(origText);
-    // }
+const fHeading = (headingText) => {
     return new Paragraph({
-        alignment: "left",
         children: [
-            new TextRun(`Altre Capacità: ${altCap ? altCap : " / "}`)
+            new TextRun({
+                text: headingText.toUpperCase(),
+                bold: true,
+            })
         ]
     });
 }
+
+const fMadLingHeading = (madreLinguaDatas) => {
+    return new Paragraph({
+        children: [
+            new TextRun({
+                text: madreLinguaDatas
+            })
+        ]
+    });
+}
+
+const fSpaceParagraphs = (space) => {
+    return new Paragraph({
+        children: [
+            new TextRun({
+                text: space,
+            })
+        ]
+    })
+}
+
+
+
+// ------------------------------------------------------------OUTPUT
+export const getAltCap = async (text) => {
+    const heading = fHeading("Ulteriori informazioni:");
+    const spacePar = fSpaceParagraphs(" ")
+    const madLingHeading = fMadLingHeading("Madre Lingua:")
+    const table = await extractAltCap(text); //TABELLA CREATA
+    let elements = [heading, spacePar, madLingHeading, spacePar, table];
+    return elements;
+};
+
+//Lingua Madre: 
+// Altre Lingue: (tabella)
+// Comprensione Parlato Scritto Ascolto Lettura Interazione Orale Produzione orale
+// A1 A1 A1 A1 A1 A1 A1
+// METRO DI MISURA:
+// Suffiente A1 A2,
+// discreto B1,
+// intermedio buono B2,
+// ottimo C1,
+// eccellente C2. 
+
+

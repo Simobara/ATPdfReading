@@ -38,16 +38,16 @@ const extractTelefono = (text) => {
 
 
 
+// ------------------------------------------------------------OUTPUT
 export const getTel = async (text) => {
     let telefono = await extractTelefono(text);
     if (!telefono) {
         telefono = extractTelefonoWithNLP(text);
     }
     console.log(`TELEFONO: ${telefono ? telefono : " nd "}`);
+
     return new Paragraph({
         alignment: "left",
-        children: [
-            new TextRun(`Telefono: ${telefono ? telefono : " / "}`)
-        ]
+        children: [new TextRun(`Telefono: ${telefono}`)]
     });
 }

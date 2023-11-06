@@ -40,13 +40,19 @@ const extractComOrgEGes = (origText) => {
 
 export const getComOrgEGes = async (origText) => {
     let comOrgEGes = await extractComOrgEGes(origText);
-    // if (!phoneNumber) {
-    //     phoneNumber = extractComOrgTelefonoWithNLP(origText);
-    // }
+    const headingRun = new TextRun({
+        text: "COMPETENZE ORGANIZZATIVE:\n",
+        bold: true,
+    });
+    const emptyLineRun = new TextRun({
+        text: "\n",
+        break: 2,
+    });
+    const competenzeOrganizzativeRun = new TextRun({
+        text: comOrgEGes ? comOrgEGes : " / ",
+    });
     return new Paragraph({
         alignment: "left",
-        children: [
-            new TextRun(`Competenze Organizzative: ${comOrgEGes ? comOrgEGes : " / "}`)
-        ]
+        children: [headingRun, emptyLineRun, competenzeOrganizzativeRun],
     });
 }

@@ -24,11 +24,20 @@ const extractIstEFor = (origText) => {
 
 
 export const getIstEFor = async (origText) => {
-    const istEFor = extractIstEFor(origText);
+    let istEFor = await extractIstEFor(origText);
+    const headingRun = new TextRun({
+        text: "ISTRUZIONE E FORMAZIONE:\n",
+        bold: true,
+    });
+    const emptyLineRun = new TextRun({
+        text: "\n",
+        break: 2,
+    });
+    const educationAndTrainingRun = new TextRun({
+        text: istEFor ? istEFor : " / ",
+    });
     return new Paragraph({
         alignment: "left",
-        children: [
-            new TextRun(`Istruzione e Formazione: ${istEFor ? istEFor : "Non trovato"}`)
-        ]
+        children: [headingRun, emptyLineRun, educationAndTrainingRun],
     });
 }

@@ -68,7 +68,7 @@ const PdfViewer = ({ file }) => {
     }, [file]);
 
     return (
-        <div className="border border-gray-300 shadow-md h-[120%] overflow-auto"
+        <div className="border border-gray-300 shadow-md h-[100%] overflow-auto"
             style={{ maxHeight: '100vh' }} >
             <div className="overflow-auto" style={{ maxHeight: '20rem' }}>
                 <LogViewer sections={textState} />
@@ -87,7 +87,7 @@ const PdfViewer = ({ file }) => {
             <div className="scroll-container">
                 <div ref={scrollContainerRef}
                     className="items-start text-black pl-8 border-black border-2 overflow-auto custom-scrollbar"
-                    style={{ maxHeight: '40vh' }} >
+                    style={{ maxHeight: '45vh' }} >
                     <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
                         <Page pageNumber={pageNumber} scale={scale} />
                     </Document>

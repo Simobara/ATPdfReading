@@ -26,11 +26,11 @@ const extractLocalitaWithNLP = (text) => {
     return foundLocalita;
 };
 
-const extractLocalita = (origText) => {
+const extractLocalita = (text) => {
     // Prima si cerca con il metodo regex standard
     for (let keyword of keywords) {
         const regex = new RegExp(`\\b${keyword}\\b\\s+(\\w+(?:\\s+\\w+){0,4})`, "i"); // parola chiave seguita da 1-5 parole
-        const match = origText.match(regex);
+        const match = text.match(regex);
         if (match && match[1]) {
             // Prendi la prima parola dopo la parola chiave come possibile località
             return match[1].split(' ')[0];
@@ -40,7 +40,7 @@ const extractLocalita = (origText) => {
     // Se non si trova nulla, si esegue una ricerca hardcoded per una o due parole dopo la keyword
     for (let keyword of keywords) {
         const hardcodedRegex = new RegExp(`${keyword}\\s+(\\S+)(?:\\s+(\\S+))?`, "i"); // Cerca la keyword e prendi le prossime 1 o 2 parole
-        const hardcodedMatch = origText.match(hardcodedRegex);
+        const hardcodedMatch = text.match(hardcodedRegex);
         if (hardcodedMatch && hardcodedMatch[1]) {
             // Restituisce la prima parola o le prime due parole successive alla keyword
             return hardcodedMatch[1] + (hardcodedMatch[2] ? ` ${hardcodedMatch[2]}` : '');
@@ -50,16 +50,16 @@ const extractLocalita = (origText) => {
 };
 
 
-export const getLoc = async (origText) => {
-    let localita = await extractLocalita(origText);
+
+// ------------------------------------------------------------OUTPUT
+export const getLoc = async (text) => {
+    let localita = await extractLocalita(text);
     if (!localita) {
-        localita = extractLocalitaWithNLP(origText);
+        localita = extractLocalitaWithNLP(text);
     }
     console.log(`LOCALITA: ${localita ? localita : " nd "}`);
     return new Paragraph({
         alignment: "left",
-        children: [
-            new TextRun(`Localita: ${localita ? localita : " / "}`)
-        ]
+        children: [new TextRun(`Localita: ${localita}`)]
     });
 };

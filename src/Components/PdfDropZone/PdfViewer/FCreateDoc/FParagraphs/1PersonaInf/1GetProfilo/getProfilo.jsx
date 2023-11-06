@@ -14,7 +14,7 @@ import { Paragraph, TextRun } from 'docx';
 // }
 
 
-const extractProfilo = (origText) => {
+const extractProfilo = (text) => {
     // const keywords = [
     //     "apparecchio", "canale", "cell", "cell phone", "cellulare", "chiamata", "cifra", "codice", "collegamento", "connessione", "contatto", "fisso", "landline", "linea", "mobile", "mobile phone", "numero", "numero di telefono", "Phone", "phone number", "rapporto", "richiamo", "smartphone", "tel", "telefono", "telefono fisso", "telefonata"
     // ];
@@ -23,11 +23,11 @@ const extractProfilo = (origText) => {
     // if (matchKeyword) {
     //     const startIdx = matchKeyword.index + matchKeyword[0].length;
     //     const slicedText = origText.slice(startIdx);
-    //     // Cercare un `+` (con possibili spazi) seguito da altri possibili spazi e poi da una serie di numeri che, una volta "ripuliti", sono tra 5 e 15 cifre
+    // Cercare un `+` (con possibili spazi) seguito da altri possibili spazi e poi da una serie di numeri che, una volta "ripuliti", sono tra 5 e 15 cifre
     //     const numberWithPrefix = slicedText.match(/(\+\s*)?(\d[\s-]*){5,15}/);
     //     if (numberWithPrefix) {
     //         const cleanedNumber = numberWithPrefix[0].replace(/[\s-]/g, '');
-    //         // Verifica se il numero "ripulito" ha una lunghezza tra 5 e 15 cifre
+    // Verifica se il numero "ripulito" ha una lunghezza tra 5 e 15 cifre
     //         if (cleanedNumber.length >= 5 && cleanedNumber.length <= 15) {
     //             return cleanedNumber; // Questo manterrà il `+` nel numero finale se presente
     //         }
@@ -38,8 +38,9 @@ const extractProfilo = (origText) => {
 
 
 
-export const getPro = async (origText) => {
-    let profilo = await extractProfilo(origText);
+// ------------------------------------------------------------OUTPUT
+export const getPro = async (text) => {
+    let profilo = await extractProfilo(text);
     // if (!phoneNumber) {
     //     phoneNumber = extractProfiloWithNLP(origText);
     // }

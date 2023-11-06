@@ -23,12 +23,27 @@ const extractEspLav = (origText) => {
 
 
 
+// ------------------------------------------------------------OUTPUT
 export const getEspLav = async (origText) => {
-    const espLav = extractEspLav(origText);
+    let espLav = await extractEspLav(origText);
+    const headingRun = new TextRun({
+        text: "ESPERIENZE LAVORATIVE:\n",
+        bold: true,
+    });
+    const emptyLineRun = new TextRun({
+        text: "\n",
+        break: 2,
+    });
+    const workExperienceRun = new TextRun({
+        text: espLav ? espLav : " / ",
+    });
     return new Paragraph({
         alignment: "left",
-        children: [
-            new TextRun(`Esperienze Lavorative: ${espLav ? espLav : " / "}`)
-        ]
+        children: [headingRun, emptyLineRun, workExperienceRun],
     });
 }
+
+
+
+
+
